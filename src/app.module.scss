@@ -1,0 +1,16 @@
+.app {
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 90%;
+}
+
+.title {
+  margin-bottom: 10px;
+}
