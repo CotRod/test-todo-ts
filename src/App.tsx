@@ -8,6 +8,7 @@ const { app, container, title } = classes;
 interface FormValues {
   title: string;
   text: string;
+  date: string;
 }
 
 interface todoItem {
@@ -30,15 +31,29 @@ function App() {
     localStorage.setItem('todos', JSON.stringify(items));
   }, [items]);
 
-  const onFinish = ({ title, text }: FormValues) => {
-    const date = new Date();
+  const onFinish = ({ title, text, date }: FormValues) => {
+    const currentDate = new Date();
     const newItem: todoItem = {
       text: text,
       title: title,
-      date: date.toISOString(),
+      date: currentDate.toISOString(),
     }
-    setItems((prevItems => [...prevItems, newItem]))
+    setItems((prevItems => {
+      if (date) {
+        return [...prevItems.filter(item => item.date !== date), newItem];
+      }
+
+      return [...prevItems, newItem];
+    }))
     form.resetFields();
+  }
+
+  const onDelete = (isoDate: string) => {
+    setItems(prevState => prevState.filter(item => item.date !== isoDate));
+  }
+
+  const onEdit = ({ title, text, date }: todoItem) => {
+    form.setFieldsValue({ title, text, date });
   }
 
   return (
@@ -54,7 +69,7 @@ function App() {
           <Form.Item
             label={'Title'}
             name={'title'}
-            required
+            rules={[{ required: true }]}
           >
             <Input
               maxLength={30}
@@ -64,13 +79,16 @@ function App() {
           <Form.Item
             label={'What should I do'}
             name={'text'}
-            required
+            rules={[{ required: true }]}
           >
             <Input.TextArea
               rows={4}
               maxLength={120}
               showCount
               allowClear/>
+          </Form.Item>
+          <Form.Item name={'date'} hidden>
+            <Input/>
           </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit">
@@ -89,23 +107,25 @@ function App() {
             xl: 4,
             xxl: 5,
           }}
-          style={{width: '100%'}}
+          style={{ width: '100%' }}
           dataSource={items}
+          rowKey={(item) => item.date}
           renderItem={(item) => (
             <List.Item>
               <Badge.Ribbon
                 text={getReadableDateFromIso(item.date)}
-                style={{top: 0}}
+                style={{ top: 0 }}
               >
-              <Card
-                title={item.title}
-                actions={[
-                  <EditOutlined key="edit" />,
-                  <DeleteOutlined key="delete" />,
-                ]}
-              >
-                {item.text}
-              </Card>
+                <Card
+                  title={item.title}
+                  actions={[
+                    <EditOutlined key="edit" onClick={() => onEdit(item)}/>,
+                    <DeleteOutlined key="delete" onClick={() => onDelete(item.date)
+                    }/>,
+                  ]}
+                >
+                  {item.text}
+                </Card>
               </Badge.Ribbon>
             </List.Item>
           )
