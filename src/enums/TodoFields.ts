@@ -1,7 +1,7 @@
-const enum FormFields {
+const enum TodoFields {
   title = 'title',
   text = 'text',
   date = 'date',
 }
 
-export default FormFields;
+export default TodoFields;

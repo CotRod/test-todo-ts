@@ -1,7 +1,7 @@
 import { Button, Form, FormInstance, Input } from 'antd';
 import React from 'react';
 import { TodoItem } from '../../interfaces/TodoItem';
-import FormFields from '../../enums/FormFields';
+import TodoFields from '../../enums/TodoFields';
 import { MAX_TEXT_LENGTH, MAX_TITLE_LENGTH, TEXT_LABEL, TEXT_ROWS, TITLE_LABEL } from '../../constants';
 
 interface TodoFormProps {
@@ -19,7 +19,7 @@ const TodoForm = ({ form, onSubmit }: TodoFormProps) => {
     >
       <Form.Item
         label={TITLE_LABEL}
-        name={FormFields.title}
+        name={TodoFields.title}
         rules={[{ required: true }]}
       >
         <Input
@@ -29,7 +29,7 @@ const TodoForm = ({ form, onSubmit }: TodoFormProps) => {
       </Form.Item>
       <Form.Item
         label={TEXT_LABEL}
-        name={FormFields.text}
+        name={TodoFields.text}
         rules={[{ required: true }]}
       >
         <Input.TextArea
@@ -38,7 +38,7 @@ const TodoForm = ({ form, onSubmit }: TodoFormProps) => {
           showCount
           allowClear/>
       </Form.Item>
-      <Form.Item name={FormFields.date} hidden>
+      <Form.Item name={TodoFields.date} hidden>
         <Input/>
       </Form.Item>
       <Form.Item>

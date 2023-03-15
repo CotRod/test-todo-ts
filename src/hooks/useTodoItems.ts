@@ -1,8 +1,8 @@
 import { TodoItem } from '../interfaces/TodoItem';
 import { Form } from 'antd';
-import FormFields from '../enums/FormFields';
+import TodoFields from '../enums/TodoFields';
 import { useDispatch, useSelector } from 'react-redux';
-import { addTodo, removeTodo, todosSelector } from '../store/todoSlice';
+import { addTodo, removeTodo, todosSelector } from '../redux/todoSlice';
 
 const useTodoItems = () => {
   const items = useSelector(todosSelector);
@@ -11,8 +11,8 @@ const useTodoItems = () => {
 
   const onAddItem = ({ title, text, date }: TodoItem) => {
     const newItem: Partial<TodoItem> = {
-      [FormFields.text]: text,
-      [FormFields.title]: title,
+      [TodoFields.text]: text,
+      [TodoFields.title]: title,
     }
     if (date) {
       dispatch(removeTodo(date))

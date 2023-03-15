@@ -1,6 +1,7 @@
 import { TodoItem } from '../interfaces/TodoItem';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from './index';
+import { RootState } from './store';
+import TodoFields from '../enums/TodoFields';
 
 export interface TodoState {
   value: TodoItem[];
@@ -18,7 +19,7 @@ const todoSlice = createSlice({
       reducer: (state, action: PayloadAction<TodoItem>) => {
         state.value.push(action.payload)
       },
-      prepare: (item) => ({ payload: { ...item, date: new Date().toISOString() } })
+      prepare: (item) => ({ payload: { ...item, [TodoFields.date]: new Date().toISOString() } })
     },
     removeTodo: (state, action: PayloadAction<string>) => {
       state.value = state.value.filter(item => item.date !== action.payload)

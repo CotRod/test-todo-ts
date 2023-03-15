@@ -1,5 +1,5 @@
-import FormFields from '../enums/FormFields';
+import TodoFields from '../enums/TodoFields';
 
 export type TodoItem = {
- [key in FormFields]: string;
+ [key in TodoFields]: string;
 }
